@@ -1,0 +1,24 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    user: "1000:1000"
+    group_add:
+      - "983"
+      - "987"
+    network_mode: bridge
+    ports:
+      - "8096:8096/tcp"
+      - "8920:8920/tcp"
+      - "7359:7359/udp"
+      - "1900:1900/udp"
+    volumes:
+      - ./docker-data/config:/config
+      - ./docker-data/cache:/cache
+      - /mnt/samsung/orion-backup-local:/mnt/orion-backup-local:rw
+    devices:
+      - /dev/dri:/dev/dri
+    environment:
+      - TZ=Europe/Istanbul
+      - JELLYFIN_PublishedServerUrl=http://localhost:8096
+    restart: unless-stopped
